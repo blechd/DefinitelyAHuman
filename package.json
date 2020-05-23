@@ -1,0 +1,10 @@
+{
+    "name": "DefinitelyAHuman",
+    "version": "1.0.0",
+    "description": "yes",
+    "main": "bot.js",
+    "author": "blechd",
+    "dependencies": {
+        "discord.js": "^12.2.0"
+    }
+}

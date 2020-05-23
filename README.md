@@ -1,0 +1,1 @@
+A discord bot used in a server with friends
