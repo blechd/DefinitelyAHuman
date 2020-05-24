@@ -1,1 +1,1 @@
-A discord bot used in a server with friends
+A discord bot made with discord.js for a server with friends
