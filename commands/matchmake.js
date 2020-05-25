@@ -32,10 +32,9 @@ writeRank = function(message, user, division, rank) {
 
         //if that user already has a rank, update it
         let alreadyExists = false;
-        for (let userRank of rankList) {
-            console.log(`comparing ${userRank.user} and ${user}`);
-            if (userRank.user === user) {
-                userRank.rank = ranking;
+        for (let rankEntry of rankList) {
+            if (rankEntry.user === user) {
+                rankEntry.rank = ranking;
                 alreadyExists = true;
                 break;
             }
@@ -70,6 +69,38 @@ divisionToNum = function(rank) {
     }
 }
 
-matchmake = function(message, users) {
-    
+matchmake = function(message, usernames) {
+    fs.readFile(rankFile, 'utf8', (err, data) => {
+        if (err) {
+            message.channel.send('Error getting ranks.');
+            console.error(err);
+            return;
+        }
+
+        let rankList = JSON.parse(data);
+        let match = [];
+
+        for (let rankEntry of rankList) {
+            if (usernames.includes(rankEntry.user)) {
+                match.push(rankEntry);
+            }
+        }
+
+        //sort in increasing order
+        match = match.sort((a, b) => {return parseInt(a.rank) - parseInt(b.rank)});
+
+        let team1 = [], team2 = [];
+
+        while (match.length > 0) {
+            team1.push(match.pop());
+            team2.push(match.pop());
+        }
+
+        //map {user, rank} pairs to just the usernames
+        team1 = team1.map((entry) => {return entry.user});
+        team2 = team2.map((entry) => {return entry.user});
+
+        message.channel.send(`Team 1: ${team1}.`);
+        message.channel.send(`Team 2: ${team2}.`);
+    });
 }
