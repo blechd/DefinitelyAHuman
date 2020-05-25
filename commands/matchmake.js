@@ -70,6 +70,10 @@ divisionToNum = function(rank) {
 }
 
 matchmake = function(message, usernames) {
+    if (!usernames.length) {
+        message.channel.send("No users given to make a match with.");
+    }
+    
     fs.readFile(rankFile, 'utf8', (err, data) => {
         if (err) {
             message.channel.send('Error getting ranks.');
